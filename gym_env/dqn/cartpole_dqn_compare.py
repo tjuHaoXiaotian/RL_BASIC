@@ -9,9 +9,11 @@ from cartpole_dqn_v2 import DQN as DQN2
 # Hyper Parameters
 ENV_NAME = 'CartPole-v0'
 EPISODE = 10000 # Episode limitation
-STEP = 300 # Step limitation in an episode
+STEP = 200 # Step limitation in an episode
 TEST = 10 # The number of experiment test every 100 episode
 TARGET_Q_UPDATE_FREQUENCY = 5
+
+RENDER_TEST = False
 
 def main():
   # initialize OpenAI Gym env and dqn agent
@@ -30,6 +32,7 @@ def main():
       # Train agent 2
       # initialize task
       state = env.reset()
+      # while True:
       for step in range(STEP):
         every_step += 1
         action = agent2.egreedy_action(state) # e-greedy action for train
@@ -48,6 +51,7 @@ def main():
       # Train agent 1
       # initialize task
       state = env.reset()
+      # while True:
       for step in range(STEP):
         action = agent1.egreedy_action(state)  # e-greedy action for train
         next_state, reward, done, _ = env.step(action)
@@ -70,7 +74,8 @@ def main():
         for i in range(TEST):
           state = env.reset()
           for j in range(STEP):
-            env.render()
+            if RENDER_TEST:
+              env.render()
             action = agent1.action(state) # direct action for test
             state,reward,done,_ = env.step(action)
             total_reward1 += reward
@@ -86,7 +91,8 @@ def main():
         for i in range(TEST):
           state = env.reset()
           for j in range(STEP):
-            env.render()
+            if RENDER_TEST:
+              env.render()
             action = agent2.action(state)  # direct action for test
             state, reward, done, _ = env.step(action)
             total_reward2 += reward
